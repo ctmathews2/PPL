@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E05015A226645A5600364FD7 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05015A126645A5600364FD7 /* CustomPicker.swift */; };
 		E0B25D0926573F5C00FC04DD /* PPLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B25D0826573F5C00FC04DD /* PPLApp.swift */; };
 		E0B25D0B26573F5C00FC04DD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B25D0A26573F5C00FC04DD /* ContentView.swift */; };
 		E0B25D0D26573F5D00FC04DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0B25D0C26573F5D00FC04DD /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E05015A126645A5600364FD7 /* CustomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
 		E0B25D0526573F5C00FC04DD /* PPL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0B25D0826573F5C00FC04DD /* PPLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPLApp.swift; sourceTree = "<group>"; };
 		E0B25D0A26573F5C00FC04DD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				E0B25D0826573F5C00FC04DD /* PPLApp.swift */,
 				E0B25D0A26573F5C00FC04DD /* ContentView.swift */,
+				E05015A126645A5600364FD7 /* CustomPicker.swift */,
 				E0B25D0C26573F5D00FC04DD /* Assets.xcassets */,
 				E0B25D1126573F5D00FC04DD /* Info.plist */,
 				E0B25D0E26573F5D00FC04DD /* Preview Content */,
@@ -261,6 +264,7 @@
 			files = (
 				E0B25D0B26573F5C00FC04DD /* ContentView.swift in Sources */,
 				E0B25D0926573F5C00FC04DD /* PPLApp.swift in Sources */,
+				E05015A226645A5600364FD7 /* CustomPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
