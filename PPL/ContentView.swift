@@ -19,18 +19,13 @@ enum Flavor: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @State private var selectedFlavor = Flavor.choc
-    @State private var selectedIndex: Int = 0
+    @EnvironmentObject var UIState: UIStateModel
     
-    init() {
-        UISegmentedControl.appearance().selectedSegmentTintColor = .blue
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.blue], for: .normal)
-    }
     
     var body: some View {
         //Text("Hello, Chandler!")
         let spacing: CGFloat = 16
-        let widthOfHiddenCards: CGFloat = 32 /// UIScreen.main.bounds.width - 10
+        let widthOfHiddenCards: CGFloat = 100 /// UIScreen.main.bounds.width - 10
         let cardHeight: CGFloat = 279
         
         let items = [
@@ -40,35 +35,49 @@ struct ContentView: View {
         ]
         
         VStack {
-            Carousel(
-                numberOfItems: CGFloat(items.count),
-                spacing: spacing,
-                widthOfHiddenCards: widthOfHiddenCards
-            ) {
-                ForEach(items, id: \.self.id) { item in
-                    Item(
-                        _id: Int(item.id),
-                        spacing: spacing,
-                        widthOfHiddenCards: widthOfHiddenCards,
-                        cardHeight: cardHeight
-                    ) {
-                        Text("\(item.name)")
-                            .font(.system(size: 100))
+            VStack {
+                Carousel(
+                    numberOfItems: CGFloat(items.count),
+                    spacing: spacing,
+                    widthOfHiddenCards: widthOfHiddenCards
+                ) {
+                    ForEach(items, id: \.self.id) { item in
+                        Item(
+                            _id: Int(item.id),
+                            spacing: spacing,
+                            widthOfHiddenCards: widthOfHiddenCards,
+                            cardHeight: cardHeight
+                        ) {
+                            Text("\(item.name)")
+                                .font(.system(size: 80))
+                        }
+                        .foregroundColor(Color.white)
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                        .shadow(color: Color("shadow1"), radius: 4, x: 0, y: 4)
+                        .transition(AnyTransition.slide)
+                        .animation(.spring())
                     }
-                    .foregroundColor(Color.white)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-                    .shadow(color: Color("shadow1"), radius: 4, x: 0, y: 4)
-                    .transition(AnyTransition.slide)
-                    .animation(.spring())
                 }
+                .environmentObject(UIState)
             }
-            .environmentObject(UIStateModel())
+            .ignoresSafeArea()
+            .frame(width: UIScreen.screenWidth)
+            .background(Color.blue)
+            .cornerRadius(30)
+            
             Spacer()
+            if(UIState.activeCard == 2){
+                Text("Im here")
+            }
+            Text("Hello: \(UIState.activeCard)")
+                .environmentObject(UIState)
+            Spacer()
+            
         }
         .ignoresSafeArea()
-        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight+20)
-        .background(Color.blue)
+        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
+        .background(Color.yellow)
         
     }
 }
@@ -81,6 +90,6 @@ extension UIScreen{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(UIStateModel())
     }
 }

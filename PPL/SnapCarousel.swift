@@ -37,16 +37,18 @@ struct SnapCarousel: View {
                         widthOfHiddenCards: widthOfHiddenCards,
                         cardHeight: cardHeight
                     ) {
-                        Text("\(item.name)")
+                        Text("\(UIState.activeCard)")
+                            .environmentObject(UIState)
                     }
-                    .foregroundColor(Color.white)
-                    .background(Color("surface"))
+                    .foregroundColor(Color.blue)
+                    .background(Color.green)
                     .cornerRadius(8)
                     .shadow(color: Color("shadow1"), radius: 4, x: 0, y: 4)
                     .transition(AnyTransition.slide)
                     .animation(.spring())
                 }
-            }
+            }.environmentObject(UIState)
+            
         }
     }
 }
@@ -59,6 +61,7 @@ struct Card: Decodable, Hashable, Identifiable {
 public class UIStateModel: ObservableObject {
     @Published var activeCard: Int = 0
     @Published var screenDrag: Float = 0.0
+    @Published var currentIndex: Int = 0
 }
 
 struct Carousel<Items : View> : View {
@@ -115,12 +118,14 @@ struct Carousel<Items : View> : View {
             
             if (value.translation.width < -50) {
                 self.UIState.activeCard = self.UIState.activeCard + 1
+                self.UIState.currentIndex = 4
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()
             }
             
             if (value.translation.width > 50) {
                 self.UIState.activeCard = self.UIState.activeCard - 1
+                self.UIState.currentIndex = 10
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()
             }
@@ -173,5 +178,6 @@ struct Item<Content: View>: View {
 struct SnapCarousel_Previews: PreviewProvider {
     static var previews: some View {
         SnapCarousel().environmentObject(UIStateModel())
+        
     }
 }
