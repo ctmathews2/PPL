@@ -29,31 +29,54 @@ struct ContentView: View {
     
     var body: some View {
         //Text("Hello, Chandler!")
+        let spacing: CGFloat = 16
+        let widthOfHiddenCards: CGFloat = 32 /// UIScreen.main.bounds.width - 10
+        let cardHeight: CGFloat = 279
+        
+        let items = [
+            Card(id: 0, name: "Push"),
+            Card(id: 1, name: "Pull"),
+            Card(id: 2, name: "Legs"),
+        ]
         
         VStack {
-            CustomPickerView(selectedIndex: $selectedIndex)
-                        .background(Rectangle().fill(Color(white: 0.75)))
-            Picker(selection: $selectedFlavor, label: Text("Data")){
-                VStack(spacing: 50){
-                    Text("Push").tag(Flavor.choc)
-                        .rotationEffect(Angle(degrees: 270))
-                        //.font(.system(size: 80))
-                    Text("Pull").tag(Flavor.vani)
-                        .rotationEffect(Angle(degrees: 270))
-                    Text("Legs").tag(Flavor.stra)
-                        .rotationEffect(Angle(degrees: 270))
+            Carousel(
+                numberOfItems: CGFloat(items.count),
+                spacing: spacing,
+                widthOfHiddenCards: widthOfHiddenCards
+            ) {
+                ForEach(items, id: \.self.id) { item in
+                    Item(
+                        _id: Int(item.id),
+                        spacing: spacing,
+                        widthOfHiddenCards: widthOfHiddenCards,
+                        cardHeight: cardHeight
+                    ) {
+                        Text("\(item.name)")
+                            .font(.system(size: 100))
+                    }
+                    .foregroundColor(Color.white)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+                    .shadow(color: Color("shadow1"), radius: 4, x: 0, y: 4)
+                    .transition(AnyTransition.slide)
+                    .animation(.spring())
                 }
             }
-            .labelsHidden()
-            .rotationEffect(Angle(degrees: 90))
-            .frame(height: 400)
-            .clipped()
-            
-            Text("Selected: \(selectedFlavor.rawValue)")
+            .environmentObject(UIStateModel())
+            Spacer()
         }
         .ignoresSafeArea()
-        .background(Color.yellow)
+        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight+20)
+        .background(Color.blue)
+        
     }
+}
+
+extension UIScreen{
+   static let screenWidth = UIScreen.main.bounds.size.width
+   static let screenHeight = UIScreen.main.bounds.size.height
+   static let screenSize = UIScreen.main.bounds.size
 }
 
 struct ContentView_Previews: PreviewProvider {
