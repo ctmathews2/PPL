@@ -15,6 +15,24 @@ enum Flavor: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
+let liftList: String =
+    """
+    Bench Press:\n
+    Incline Press:\n
+    Shoulder Press:\n
+    Tricep Extensions:\n
+    Tricep Pulldown:\n
+    """
+
+let repList: String =
+    """
+    3 x 10\n
+    3 x 10\n
+    3 x 10\n
+    3 x 10\n
+    3 x 10\n
+    """
+
 
 
 struct ContentView: View {
@@ -44,13 +62,33 @@ struct ContentView: View {
                 VStack {
                     TopHorizontalPicker()
                     Spacer()
-
-                    if(UIState.activeCard == 2){
-                        Text("Im here")
+                    HStack {
+                        Text(liftList)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.trailing)
+                            .font(.system(size: 28))
+                        Spacer()
+                        Text(repList)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .font(.system(size: 28))
                     }
-                    Text("Hello: \(UIState.activeCard)")
-                        .environmentObject(UIState)
-                        .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    
+                    Button("Start"){
+                        
+                    }
+                    .frame(width: UIScreen.screenWidth / 1.5, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .background(Color.blue)
+                    .cornerRadius(20)
+                    
+//                    if(UIState.activeCard == 2){
+//                        Text("Im here")
+//                    }
+//                    Text("Hello: \(UIState.activeCard)")
+//                        .environmentObject(UIState)
+//                        .foregroundColor(.white)
                     Spacer()
                     
                 }
