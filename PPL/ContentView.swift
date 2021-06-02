@@ -7,59 +7,10 @@
 
 import SwiftUI
 
-enum Flavor: String, CaseIterable, Identifiable {
-    case choc
-    case vani
-    case stra
-    
-    var id: String { self.rawValue }
-}
-
-let pushList: String =
-    """
-    Bench Press:\n
-    Incline Press:\n
-    Shoulder Press:\n
-    Tricep Extensions:\n
-    Tricep Pulldown:\n
-    """
-
-let repList: String =
-    """
-    3 x 10\n
-    3 x 10\n
-    3 x 10\n
-    3 x 10\n
-    3 x 10\n
-    """
-
-let pullList: String =
-    """
-    Pull Ups:\n
-    Barbell Row:\n
-    Dumbbell Fly:\n
-    Bicep Curl:\n
-    Hammer Curl:\n
-    """
-
-let legList: String =
-    """
-    Squat:\n
-    Deadlift:\n
-    Leg Press:\n
-    Hamstring curl:\n
-    Quad Extensions:\n
-    """
-
-
-
 struct ContentView: View {
-    @State private var selectedFlavor = Flavor.choc
     @EnvironmentObject var UIState: UIStateModel
     
     init() {
-//        UITabBar.appearance().backgroundColor = UIColor.blue
-//        UITabBar.appearance().isTranslucent = true
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().shadowImage     = UIImage()
         UITabBar.appearance().clipsToBounds   = true
@@ -69,45 +20,16 @@ struct ContentView: View {
     var body: some View {
         
         // Full Screen Stack
-            
         TabView {
-
+            
             //First Tab
             ZStack {
-                
                 Color.gray
                     .ignoresSafeArea()
                 VStack {
                     TopHorizontalPicker()
                     Spacer()
-                    HStack {
-                        if(UIState.activeCard == 0){
-                            Text(pushList)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                //.multilineTextAlignment(.trailing)
-                                .font(.system(size: 28))
-                        } else if (UIState.activeCard == 1){
-                            Text(pullList)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                //.multilineTextAlignment(.trailing)
-                                .font(.system(size: 28))
-                        } else {
-                            Text(legList)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                //.multilineTextAlignment(.trailing)
-                                .font(.system(size: 28))
-                        }
-                        Spacer()
-                        Text(repList)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .font(.system(size: 28))
-                    }
-                    .padding(.horizontal, 20)
-                    
+                    HomeListText(listIndex: UIState.activeCard)
                     Spacer()
                     Button("Start"){
                         
@@ -116,12 +38,6 @@ struct ContentView: View {
                     .background(Color.blue)
                     .cornerRadius(20)
                     
-//                    if(UIState.activeCard == 2){
-//                        Text("Im here")
-//                    }
-//                    Text("Hello: \(UIState.activeCard)")
-//                        .environmentObject(UIState)
-//                        .foregroundColor(.white)
                     Spacer()
                     Spacer()
                     
@@ -146,7 +62,6 @@ struct ContentView: View {
             
         }
         .accentColor(.white)
-        //.environmentObject(UIStateModel())
         
     }
 }
@@ -204,5 +119,56 @@ struct TopHorizontalPicker: View {
         .frame(width: UIScreen.screenWidth)
         .background(Color.blue)
         .cornerRadius(30)
+    }
+}
+
+struct HomeListText : View {
+    var listIndex : Int
+    let repList: String =
+        """
+        3 x 10\n
+        3 x 10\n
+        3 x 10\n
+        3 x 10\n
+        3 x 10\n
+        """
+    var liftTextDict : [Int : String] = [
+        0 : """
+        Bench Press:\n
+        Incline Press:\n
+        Shoulder Press:\n
+        Tricep Extensions:\n
+        Tricep Pulldown:\n
+        """,
+        1 : """
+        Pull Ups:\n
+        Barbell Row:\n
+        Dumbbell Fly:\n
+        Bicep Curl:\n
+        Hammer Curl:\n
+        """,
+        2 : """
+        Squat:\n
+        Deadlift:\n
+        Leg Press:\n
+        Hamstring curl:\n
+        Quad Extensions:\n
+        """
+    ]
+    
+    var body: some View {
+        HStack {
+            Text(liftTextDict[listIndex]!)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                //.multilineTextAlignment(.trailing)
+                .font(.system(size: 28))
+            Spacer()
+            Text(repList)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .font(.system(size: 28))
+        }
+        .padding(.horizontal, 20)
     }
 }
