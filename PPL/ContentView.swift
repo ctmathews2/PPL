@@ -15,7 +15,7 @@ enum Flavor: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-let liftList: String =
+let pushList: String =
     """
     Bench Press:\n
     Incline Press:\n
@@ -31,6 +31,24 @@ let repList: String =
     3 x 10\n
     3 x 10\n
     3 x 10\n
+    """
+
+let pullList: String =
+    """
+    Pull Ups:\n
+    Barbell Row:\n
+    Dumbbell Fly:\n
+    Bicep Curl:\n
+    Hammer Curl:\n
+    """
+
+let legList: String =
+    """
+    Squat:\n
+    Deadlift:\n
+    Leg Press:\n
+    Hamstring curl:\n
+    Quad Extensions:\n
     """
 
 
@@ -50,24 +68,38 @@ struct ContentView: View {
     
     var body: some View {
         
-        
         // Full Screen Stack
             
         TabView {
 
             //First Tab
             ZStack {
+                
                 Color.gray
                     .ignoresSafeArea()
                 VStack {
                     TopHorizontalPicker()
                     Spacer()
                     HStack {
-                        Text(liftList)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.trailing)
-                            .font(.system(size: 28))
+                        if(UIState.activeCard == 0){
+                            Text(pushList)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                //.multilineTextAlignment(.trailing)
+                                .font(.system(size: 28))
+                        } else if (UIState.activeCard == 1){
+                            Text(pullList)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                //.multilineTextAlignment(.trailing)
+                                .font(.system(size: 28))
+                        } else {
+                            Text(legList)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                //.multilineTextAlignment(.trailing)
+                                .font(.system(size: 28))
+                        }
                         Spacer()
                         Text(repList)
                             .fontWeight(.bold)
@@ -76,6 +108,7 @@ struct ContentView: View {
                     }
                     .padding(.horizontal, 20)
                     
+                    Spacer()
                     Button("Start"){
                         
                     }
@@ -89,6 +122,7 @@ struct ContentView: View {
 //                    Text("Hello: \(UIState.activeCard)")
 //                        .environmentObject(UIState)
 //                        .foregroundColor(.white)
+                    Spacer()
                     Spacer()
                     
                 }
@@ -112,7 +146,7 @@ struct ContentView: View {
             
         }
         .accentColor(.white)
-        
+        //.environmentObject(UIStateModel())
         
     }
 }
@@ -128,6 +162,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView().environmentObject(UIStateModel())
     }
 }
+
 
 struct TopHorizontalPicker: View {
     let spacing: CGFloat = 16
