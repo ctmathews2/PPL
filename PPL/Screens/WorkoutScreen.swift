@@ -7,16 +7,19 @@
 
 import SwiftUI
 
-struct Place: Identifiable, Hashable {
-    let id: Int
-    let name: String
-    let state: String
-    let city: String
+struct ExcerciseItem: Identifiable, Hashable {
+    var id = UUID()
+    var name: String
+    var setsCompleted: Int
+    var setsTotal: Int
+    //var hello: [SetItem]? = nil
+    //Array of set objects
 }
 
-struct PlaceView: View {
+struct ExcerciseCellView: View {
+    let excercise: ExcerciseItem
+    let isExpanded: Bool
     
-    let place: Place
     var body: some View {
         HStack {
             content
@@ -25,18 +28,43 @@ struct PlaceView: View {
         .contentShape(Rectangle())
     }
     
-    let isExpanded: Bool
-    
     private var content: some View {
         VStack(alignment: .leading) {
-            Text(place.name).font(.headline)
+            Text(excercise.name).font(.headline)
             
             if isExpanded{
+                // This is where I would put the sets object
                 VStack(alignment: .leading) {
-                    Text(place.state)
-                    Text(place.city)
+                    Text("\(excercise.setsCompleted)")
+                    Text("\(excercise.setsTotal)")
                 }
             }
+        }
+    }
+}
+
+struct ExcerciseListView: View {
+    let excercises: [ExcerciseItem]
+    @State private var selection: Set<ExcerciseItem> = []
+    
+    var body: some View {
+        ScrollView {
+            ForEach(ExcerciseItems) { excercise in
+                ExcerciseCellView(excercise: excercise, isExpanded: self.selection.contains(excercise))
+                    .onTapGesture {
+                        self.selectDeselect(excercise)
+                    }
+                    .modifier(ListRowModifier())
+                    .animation(.easeInOut(duration: 0.3))
+            }
+        }
+    }
+    
+    func selectDeselect(_ excercise: ExcerciseItem) {
+        if selection.contains(excercise) {
+            selection.remove(excercise)
+        } else {
+            selection.insert(excercise)
         }
     }
 }
@@ -50,106 +78,21 @@ struct ListRowModifier: ViewModifier {
     }
 }
 
-struct PlaceListView: View {
-    let places: [Place]
-    @State private var selection: Set<Place> = []
-    var body: some View {
-        ScrollView {
-            ForEach(places) { place in
-                PlaceView(place: place, isExpanded: self.selection.contains(place))
-                    .onTapGesture {
-                        self.selectDeselect(place)
-                    }
-                    .modifier(ListRowModifier())
-                    .animation(.easeInOut(duration: 0.3))
-            }
-        }
-    }
-    
-    func selectDeselect(_ place: Place) {
-        if selection.contains(place) {
-            selection.remove(place)
-        } else {
-            selection.insert(place)
-        }
-    }
-}
-
-let places =
+let ExcerciseItems =
     [
-        Place(id: 0, name: "Place 1", state: "Cali", city: "SF"),
-        Place(id: 1, name: "Place 2", state: "Texas", city: "Dallas")
+        ExcerciseItem(name: "Bench Press", setsCompleted: 0, setsTotal: 3),
+        ExcerciseItem(name: "Incline Press", setsCompleted: 0, setsTotal: 3),
+        ExcerciseItem(name: "Shoulder Press", setsCompleted: 0, setsTotal: 3),
+        ExcerciseItem(name: "Tricep Extension", setsCompleted: 0, setsTotal: 3),
+        ExcerciseItem(name: "Tricep Pulldown", setsCompleted: 0, setsTotal: 3)
     ]
 
-struct ExcerciseItem: Identifiable {
-    var id = UUID()
-    var name: String
-    var setsCompleted: Int
-    var setsTotal: Int
-    var hello: [SetItem]? = nil
-}
-
-
-struct SetItem: Identifiable {
-    var id = UUID()
-    var name: String
-}
-
-struct testListButton: View {
-    @State var isExpanded: Bool = false
-    
-    var body: some View {
-        
-        VStack {
-            ZStack {
-                HStack {
-                    Text("Hello")
-                }
-                .frame(width: 100, height: 100, alignment: .center)
-                .background(Color.blue)
-                .offset(x: 0, y: isExpanded == false ? 0 : 100)
-                .animation(.easeInOut(duration: 0.3))
-                
-                HStack {
-                    Text("Hey There")
-                    Button("Expand"){
-                        isExpanded.toggle()
-                    }
-                }
-                .frame(width: 100, height: 100, alignment: .center)
-                .background(Color.red)
-            }
-        }
-    }
-}
-
 struct WorkoutScreen: View {
-    let SetItems =
-        [
-            SetItem(name: "Set 1"),
-            SetItem(name: "Set 2"),
-            SetItem(name: "Set 3")
-        ]
-
-    let ExcerciseItems =
-        [
-            ExcerciseItem(name: "Bench Press", setsCompleted: 0, setsTotal: 3),
-            ExcerciseItem(name: "Incline Press", setsCompleted: 0, setsTotal: 3),
-            ExcerciseItem(name: "Shoulder Press", setsCompleted: 0, setsTotal: 3),
-            ExcerciseItem(name: "Tricep Extension", setsCompleted: 0, setsTotal: 3),
-            ExcerciseItem(name: "Tricep Pulldown", setsCompleted: 0, setsTotal: 3)
-        ]
     
     var body: some View {
         VStack {
             Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-//            List(ExcerciseItems){ item in
-//                Text("\(item.name)")
-//            }
-            PlaceListView(places: places)
-            
-            testListButton()
-            
+            ExcerciseListView(excercises: ExcerciseItems)
         }
     }
 }
