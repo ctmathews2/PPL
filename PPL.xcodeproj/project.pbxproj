@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5DB31B9964781425E2D15A87 /* Pods_PPL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852DE15F6AD3206270F2AB5 /* Pods_PPL.framework */; };
-		E05015A226645A5600364FD7 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05015A126645A5600364FD7 /* CustomPicker.swift */; };
+		E09286892668501A00540F44 /* HomeListText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09286882668501A00540F44 /* HomeListText.swift */; };
+		E092868B2668511500540F44 /* TopHorizontalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E092868A2668511500540F44 /* TopHorizontalPicker.swift */; };
+		E092868D2668560800540F44 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E092868C2668560800540F44 /* HomeScreen.swift */; };
+		E092868F266856D800540F44 /* WorkoutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E092868E266856D800540F44 /* WorkoutScreen.swift */; };
 		E0B25D0926573F5C00FC04DD /* PPLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B25D0826573F5C00FC04DD /* PPLApp.swift */; };
 		E0B25D0B26573F5C00FC04DD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B25D0A26573F5C00FC04DD /* ContentView.swift */; };
 		E0B25D0D26573F5D00FC04DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0B25D0C26573F5D00FC04DD /* Assets.xcassets */; };
@@ -38,7 +41,10 @@
 /* Begin PBXFileReference section */
 		5C43A31F08316C446E69CFF7 /* Pods-PPL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPL.release.xcconfig"; path = "Target Support Files/Pods-PPL/Pods-PPL.release.xcconfig"; sourceTree = "<group>"; };
 		7852DE15F6AD3206270F2AB5 /* Pods_PPL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PPL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E05015A126645A5600364FD7 /* CustomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
+		E09286882668501A00540F44 /* HomeListText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListText.swift; sourceTree = "<group>"; };
+		E092868A2668511500540F44 /* TopHorizontalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHorizontalPicker.swift; sourceTree = "<group>"; };
+		E092868C2668560800540F44 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		E092868E266856D800540F44 /* WorkoutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutScreen.swift; sourceTree = "<group>"; };
 		E0B25D0526573F5C00FC04DD /* PPL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0B25D0826573F5C00FC04DD /* PPLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPLApp.swift; sourceTree = "<group>"; };
 		E0B25D0A26573F5C00FC04DD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +104,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E092868626684E6D00540F44 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				E092868C2668560800540F44 /* HomeScreen.swift */,
+				E092868E266856D800540F44 /* WorkoutScreen.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		E092868726684E7700540F44 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E09286882668501A00540F44 /* HomeListText.swift */,
+				E092868A2668511500540F44 /* TopHorizontalPicker.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E0B25CFC26573F5C00FC04DD = {
 			isa = PBXGroup;
 			children = (
@@ -123,9 +147,10 @@
 		E0B25D0726573F5C00FC04DD /* PPL */ = {
 			isa = PBXGroup;
 			children = (
+				E092868726684E7700540F44 /* View */,
+				E092868626684E6D00540F44 /* Screens */,
 				E0B25D0826573F5C00FC04DD /* PPLApp.swift */,
 				E0B25D0A26573F5C00FC04DD /* ContentView.swift */,
-				E05015A126645A5600364FD7 /* CustomPicker.swift */,
 				E0D75F1F266547E600CD0318 /* SnapCarousel.swift */,
 				E0B25D0C26573F5D00FC04DD /* Assets.xcassets */,
 				E0B25D1126573F5D00FC04DD /* Info.plist */,
@@ -317,8 +342,11 @@
 			files = (
 				E0B25D0B26573F5C00FC04DD /* ContentView.swift in Sources */,
 				E0D75F20266547E600CD0318 /* SnapCarousel.swift in Sources */,
+				E092868F266856D800540F44 /* WorkoutScreen.swift in Sources */,
+				E092868D2668560800540F44 /* HomeScreen.swift in Sources */,
 				E0B25D0926573F5C00FC04DD /* PPLApp.swift in Sources */,
-				E05015A226645A5600364FD7 /* CustomPicker.swift in Sources */,
+				E092868B2668511500540F44 /* TopHorizontalPicker.swift in Sources */,
+				E09286892668501A00540F44 /* HomeListText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -172,6 +172,7 @@ struct Item<Content: View>: View {
     var body: some View {
         content
             .frame(width: cardWidth, height: _id == UIState.activeCard ? cardHeight : cardHeight - 60, alignment: .center)
+            .foregroundColor(_id == UIState.activeCard ? .white : .gray)
     }
 }
 
