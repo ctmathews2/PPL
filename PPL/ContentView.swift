@@ -31,8 +31,36 @@ struct ContentView: View {
                 .tag(0)
             
             //Second Tab
-            Text("Second View")
-                .font(.title)
+            VStack {
+                Text("Second View")
+                    .font(.title)
+                List {
+                    Section(header: Text("UIKit"), footer: Text("We will miss you")) {
+                        VStack {
+                            HStack{
+                                Text("Upper left")
+                                Spacer()
+                                Text("Upper right")
+                            }
+                            HStack{
+                                Text("lower left")
+                                Spacer()
+                                Text("lower right")
+                            }
+                        }
+                        Text("UITableView")
+                        Text("UITableView")
+                        Text("UITableView")
+                    }
+
+                    Section(header: Text("SwiftUI"), footer: Text("A lot to learn")) {
+                        Text("List")
+                        Text("List")
+                        Text("List")
+                        Text("List")
+                    }
+                }
+            }
                 .tabItem({
                     Image(systemName: "square")
                     Text("Second")
