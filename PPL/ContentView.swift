@@ -7,8 +7,16 @@
 
 import SwiftUI
 
+struct TestItem: Identifiable, Hashable{
+    var id = UUID()
+    var text: String
+}
+
 struct ContentView: View {
     @EnvironmentObject var UIState: UIStateModel
+    @State var isShowing: Bool = false
+    @State var firstItem : TestItem = TestItem(text: "First")
+    @State var secondItem : TestItem = TestItem(text: "Second")
     
     init() {
         UITabBar.appearance().backgroundImage = UIImage()
@@ -31,41 +39,54 @@ struct ContentView: View {
                 .tag(0)
             
             //Second Tab
-            VStack {
-                Text("Second View")
-                    .font(.title)
-                List {
-                    Section(header: Text("UIKit"), footer: Text("We will miss you")) {
-                        VStack {
-                            HStack{
-                                Text("Upper left")
-                                Spacer()
-                                Text("Upper right")
+            ZStack {
+                VStack {
+                    Text("Second View")
+                        .font(.title)
+                    List {
+                        Section(header: Text("UIKit"), footer: Text("We will miss you")) {
+                            VStack {
+                                HStack{
+                                    Text("Upper left")
+                                    Spacer()
+                                    Text("Upper right")
+                                }
+                                HStack{
+                                    Text("lower left")
+                                    Spacer()
+                                    Button("Show") {
+                                        isShowing.toggle() // Pass Here
+                                    }
+                                }
                             }
-                            HStack{
-                                Text("lower left")
-                                Spacer()
-                                Text("lower right")
-                            }
+                            Text("UITableView")
+                            Text("UITableView")
+                            Text("UITableView")
                         }
-                        Text("UITableView")
-                        Text("UITableView")
-                        Text("UITableView")
-                    }
 
-                    Section(header: Text("SwiftUI"), footer: Text("A lot to learn")) {
-                        Text("List")
-                        Text("List")
-                        Text("List")
-                        Text("List")
+                        Section(header: Text("SwiftUI"), footer: Text("A lot to learn")) {
+                            Text("List")
+                            Text("List")
+                            Text("List")
+                            Text("List")
+                        }
+                    }
+                    HStack {
+                        Text("\(firstItem.text)")
+                        Spacer()
+                        Text("\(secondItem.text)")
                     }
                 }
+                if isShowing {
+                    popup(item: self.$firstItem, isShowing: self.$isShowing)
+                }
+                
             }
-                .tabItem({
-                    Image(systemName: "square")
-                    Text("Second")
-                })
-                .tag(1)
+            .tabItem({
+                Image(systemName: "square")
+                Text("Second")
+            })
+            .tag(1)
             
         }
         .accentColor(.black)
@@ -84,5 +105,24 @@ extension UIScreen{
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(UIStateModel())
+    }
+}
+
+struct popup: View {
+    @Binding var item : TestItem
+    @Binding var isShowing : Bool
+    
+    var body: some View {
+        VStack {
+            Text("Hello")
+            Button("Change") {
+                item.text = "Third"
+            }
+            Button("Dismiss") {
+                isShowing.toggle()
+            }
+        }
+        .frame(width: 100, height: 100, alignment: .center)
+        .background(Color.blue)
     }
 }
