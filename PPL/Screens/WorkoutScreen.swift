@@ -75,18 +75,41 @@ class SetItem: ObservableObject, Identifiable {
     @Published var weight: Int = 0
 }
 
-struct ExcerciseItem: Identifiable {
-    static func == (lhs: ExcerciseItem, rhs: ExcerciseItem) -> Bool {
-        return lhs.id == rhs.id
-    }
+//struct ExcerciseItem: Identifiable {
+//    static func == (lhs: ExcerciseItem, rhs: ExcerciseItem) -> Bool {
+//        return lhs.id == rhs.id
+//    }
+//
+//    var id = UUID()
+//    var name: String
+//    var setsCompleted: Int
+//    var setsTotal: Int
+//    var setItems: [SetItem]
+//    //Array of set objects
+//}
+
+class ExcerciseItem: ObservableObject, Identifiable {
     
     var id = UUID()
     var name: String
-    var setsCompleted: Int
-    var setsTotal: Int
-    @State var setItems: [SetItem]
+    @Published var setsCompleted: Int
+    @Published var setsTotal: Int
+    var setItems: [SetItem]
     //Array of set objects
+    init(name: String, setsCompleted: Int, setsTotal: Int, setItems: [SetItem]) {
+        self.name = name
+        self.setsCompleted = setsCompleted
+        self.setsTotal = setsTotal
+        self.setItems = setItems
+    }
 }
+
+class CurrentActiveItems: ObservableObject {
+    @Published var activeSetItem: SetItem = SetItem()
+    @Published var activeExcerciseItem: ExcerciseItem = ExcerciseItem(name: "Fake", setsCompleted: 0, setsTotal: 0, setItems: [SetItem()])
+}
+
+
 
 struct ExcerciseCellView: View {
     let excercise: ExcerciseItem
@@ -95,15 +118,14 @@ struct ExcerciseCellView: View {
     @Binding var activeItem: SetItem
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
                 HStack {
-                    Text(excercise.name).font(.largeTitle)
-                    //Spacer()
-                    Text("\(excercise.setsCompleted)/\(excercise.setsTotal)").font(.largeTitle)
+                    Text(excercise.name).font(.largeTitle).padding(.horizontal, 20)
+                    Spacer()
+                    Text("\(excercise.setsCompleted)/\(excercise.setsTotal)").font(.largeTitle).padding(.horizontal, 20)
                 }
                 .contentShape(Rectangle())
-                .frame( height: 100, alignment: .center)
+                .frame(width: UIScreen.main.bounds.size.width+1, height: 100, alignment: .center)
                 .background(Color.blue)
                 .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .bottom)
 
@@ -113,16 +135,31 @@ struct ExcerciseCellView: View {
                     // This is where I would put the sets object
                     VStack(alignment: .leading) {
                         ForEach(excercise.setItems) { set in
-                            Text("Reps: \(set.reps) Weight \(set.weight)")
-                                .onTapGesture {
-                                    isShowing.toggle()
-                                    activeItem = set
-                                }
+//                            Text("Reps: \(set.reps) Weight \(set.weight)")
+//                                .onTapGesture {
+//                                    isShowing.toggle()
+//                                    activeItem = set
+//                                }
+                            HStack {
+                                //Text("Set: ")
+                                Text("Reps: \(set.reps)").padding(.horizontal, 50)
+                                Spacer()
+                                Text("Weight: \(set.weight)").padding(.horizontal, 50)
+                            }
+                            .frame( height: 60, alignment: .center)
+                            .background(Color.gray)
+                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .bottom)
+                            .onTapGesture {
+                                isShowing.toggle()
+                                activeItem = set
+                                CurrentItems.activeSetItem = set
+                                CurrentItems.activeExcerciseItem = excercise
+                            }
+                            
                         }
                     }
                 }
             }
-        }
     }
     
 }
@@ -138,7 +175,7 @@ struct ExcerciseListView: View {
     var body: some View {
         ScrollView {
             ForEach(ExcerciseItems) { excercise in
-                ExcerciseCellView(excercise: excercise, isExpanded: (selection[0] == excercise), isShowing: self.$isShowing, activeItem: self.$activeItem)
+                ExcerciseCellView(excercise: excercise, isExpanded: (selection[0].id == excercise.id), isShowing: self.$isShowing, activeItem: self.$activeItem)
                     .onTapGesture {
                         self.selectDeselect(excercise)
                     }
@@ -154,7 +191,7 @@ struct ExcerciseListView: View {
 //        } else {
 //            selection.insert(excercise)
 //        }
-        if selection[0] == excercise {
+        if selection[0].id == excercise.id {
             selection[0] = fakeItem
         } else {
             selection[0] = excercise
@@ -185,9 +222,14 @@ let ExcerciseItems =
         ExcerciseItem(name: "Tricep Pulldown", setsCompleted: 0, setsTotal: 3, setItems:     [ SetItem(), SetItem(), SetItem() ])
     ]
 
+var CurrentItems: CurrentActiveItems = CurrentActiveItems()
+
 struct WorkoutScreen: View {
     @State var isShowing : Bool = false
     @State var activeItem : SetItem = SetItem()
+//    var testitem: CurrentActiveItems = CurrentActiveItems()
+    @State var currentItems = CurrentItems
+    
     
     var body: some View {
         ZStack {
@@ -202,17 +244,36 @@ struct WorkoutScreen: View {
             
             if isShowing {
                 VStack {
-                    Text("Pop UP")
-                    Text("This item reps:\(activeItem.reps)")
-                    Text("This item weight:\(activeItem.weight)")
-                    Button("Increase reps") {
-                        activeItem.reps += 1
+//                    Text("Pop UP")
+//                    Text("This item reps:\(activeItem.reps)")
+//                    Text("This item weight:\(activeItem.weight)")
+//                    Button("Increase reps") {
+//                        activeItem.reps += 1
+//                    }
+                    HStack {
+                        Picker(selection: $currentItems.activeSetItem.reps, label:
+                            Text("Select Reps")
+                            , content: {
+                                Text("1").tag(1)
+                                Text("2").tag(2)
+                                Text("3").tag(3)
+                                Text("4").tag(4)
+                        })
+                        Picker(selection: $currentItems.activeSetItem.weight, label:
+                            Text("Select Weight")
+                            , content: {
+                                Text("1").tag(1)
+                                Text("2").tag(2)
+                                Text("3").tag(3)
+                                Text("4").tag(4)
+                        })
                     }
-                    Button("Increase weigth") {
-                        activeItem.weight += 1
-                    }
+//                    Button("Increase weigth") {
+//                        activeItem.weight += 1
+//                    }
                     Button("Dismiss") {
                         isShowing.toggle()
+                        CurrentItems.activeExcerciseItem.setsCompleted += 1
                     }
                 }
                 .frame(width: 300, height: 500, alignment: .center)
@@ -231,3 +292,4 @@ struct WorkoutScreen_Previews: PreviewProvider {
 // Z Stack on top with toggle
 // Struct that takes excercse object and set item #
 // - has picker and returns
+
