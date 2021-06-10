@@ -251,14 +251,20 @@ struct WorkoutScreen: View {
 //                        activeItem.reps += 1
 //                    }
                     HStack {
+                        Text("Select Reps:").padding(20)
+                        Spacer()
+                        Text("Select Weight:").padding(20)
+                    }
+                    HStack {
                         Picker(selection: $currentItems.activeSetItem.reps, label:
                             Text("Select Reps")
                             , content: {
-                                Text("1").tag(1)
-                                Text("2").tag(2)
-                                Text("3").tag(3)
-                                Text("4").tag(4)
+                                ForEach(1..<31){ num in
+                                    Text("\(num)").tag(num)
+                                }
                         })
+                            .frame(width: 100)
+                            .clipped()
                         Picker(selection: $currentItems.activeSetItem.weight, label:
                             Text("Select Weight")
                             , content: {
@@ -267,17 +273,27 @@ struct WorkoutScreen: View {
                                 Text("3").tag(3)
                                 Text("4").tag(4)
                         })
+                            .frame(width: 100)
+                            .clipped()
                     }
 //                    Button("Increase weigth") {
 //                        activeItem.weight += 1
 //                    }
-                    Button("Dismiss") {
+                    Button("Add Set") {
                         isShowing.toggle()
-                        CurrentItems.activeExcerciseItem.setsCompleted += 1
+                        if CurrentItems.activeExcerciseItem.setsCompleted < CurrentItems.activeExcerciseItem.setsTotal {
+                            CurrentItems.activeExcerciseItem.setsCompleted += 1
+                        }
                     }
+                    .frame(width: 100, height: 30, alignment: .center)
+                    .foregroundColor(Color.black)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+                    .padding(.bottom, 20)
                 }
-                .frame(width: 300, height: 500, alignment: .center)
+                .frame(width: 300, alignment: .center)
                 .background(Color.yellow)
+                .cornerRadius(15)
             }
         }
     }
